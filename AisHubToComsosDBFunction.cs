@@ -19,26 +19,39 @@ namespace AisHub
         public static void Run([TimerTrigger("0 */5 * * * *")] TimerInfo myTimer, ILogger log)
         {
             log.LogInformation($"AisHubToComsosDBFunction function executed at: {DateTime.Now}");
-            log.LogInformation($"AisHubUserName: {AisHubUserName}");
-            log.LogInformation($"CosmosEndpointUri: {CosmosEndpointUri}");
-            log.LogInformation($"CosmosPrimaryKey: {CosmosPrimaryKey}");
-            log.LogInformation($"CosmosDatabaseID: {CosmosDatabaseID}");
-            log.LogInformation($"CosmosContainerID: {CosmosContainerID}");
 
-            var cosmos = new Cosmos(CosmosEndpointUri, CosmosPrimaryKey, CosmosDatabaseID, CosmosContainerID);
-
-            var aisHubRawData = GetAisHubData();
-
-            var cosmosData = CosmosAisData.ConvertToCosmosFormat(aisHubRawData);
-
-            foreach (var data in cosmosData)
+            //Check configuration has been set
+            if (AisHubUserName == "" || CosmosEndpointUri == "" || CosmosPrimaryKey == "" || CosmosDatabaseID == "" || CosmosContainerID == "")
             {
-                log.LogInformation($"Inserted Location {data.ToString()}");
-                _ = cosmos.AddAisHubDataAsync(data);
-                log.LogInformation($"AIS DataLake Created - {data.MMSI}");
+                log.LogError($"Please Set All Required Variables : Currently Set As: AisHubUserName - {AisHubUserName}, CosmosEndpointUri - {CosmosEndpointUri}, CosmosPrimaryKey - {CosmosPrimaryKey}, CosmosDatabaseID - {CosmosDatabaseID}, CosmosContainerID - {CosmosContainerID}");
+                return;
             }
 
-            log.LogInformation($"AisHubToComsosDBFunction function completed at: {DateTime.Now}");
+            //Setup Connection to Azure CosmosDB
+            var cosmos = new Cosmos(CosmosEndpointUri, CosmosPrimaryKey, CosmosDatabaseID, CosmosContainerID);
+
+            try
+            {
+                //Get Data from AisHub API
+                var aisHubRawData = GetAisHubData();
+
+                //Convert AisHub Data to our Cosmos Data Format
+                var cosmosData = CosmosAisData.ConvertToCosmosFormat(aisHubRawData);
+
+                //Insert Positions to CosmosDB
+                foreach (var data in cosmosData)
+                {
+                    log.LogInformation($"Inserted Location {data.ToString()}");
+                    _ = cosmos.AddAisHubDataAsync(data);
+                    log.LogInformation($"AIS DataLake Created - {data.MMSI}");
+                }
+
+                log.LogInformation($"AisHubToComsosDBFunction function completed at: {DateTime.Now}");
+            }
+            catch (Exception ex)
+            {
+                log.LogError($"{ex}");
+            }
 
         }
 
@@ -61,6 +74,10 @@ namespace AisHub
             }
 
             var aisHubDataSet = AisHubData.FromJson(jsonString);
+            if (aisHubDataSet.Count < 2)
+            {
+                throw new Exception(aisHubDataSet[0].Summary.Format);
+            }
             var shipPositions = aisHubDataSet[1].ShipPositions;
 
             return shipPositions;
