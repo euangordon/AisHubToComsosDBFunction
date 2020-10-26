@@ -8,6 +8,8 @@ C# NET Core - Azure Function which connects to the AisHub API and stores the ves
 2. CosmosDB setup, with a new Container with the Partition ID set to /MMSI
 3. Download source and enter your API Keys
 
+## AIS (Automatic Identification System) Data:
+
 At any time there are over 50,000 ships moving around the world, transmitting their location using an [AIS (Automatic Identification System)](https://en.wikipedia.org/wiki/Automatic_identification_system) transmitter on 161.975 MHz and 162.025 MHz. AIS was designed to allow ships to share their location with other nearby ships. Land based receivers have been set up by a number of companies and enthusiasts to collect AIS signals, and over recent years satellites have been used to get worldwide coverage.
 
 If you are interested in receiving this data yourself, [AisHub.net](http://www.aishub.net/) allows access to their API if you contribute data yourself. This dataset offers limited coverage, but it provides enough data to get started. You can set up a small receiver using a [Raspberry Pi and an RTL-SDR USB dongle](http://www.aishub.net/rpiais). My small receiver gets some ships in the [Firth of Forth](http://www.aishub.net/stations/2993).
