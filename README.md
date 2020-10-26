@@ -1,14 +1,12 @@
-﻿# AisHubToComsosDBFunction
+﻿# AisHubToComsosDBFunction - Recording Ship Locations in CosmosDB
 C# NET Core - Azure Function which connects to the AisHub API and stores the vessel (ship) position data received in Azure CosmosDB
 
 ![AIS Ships](https://github.com/euangordon/AisHubToComsosDBFunction/blob/master/AIS_Ships.JPG)
 
-Prerequisites: 
+### Prerequisites: 
 1. An account with [AisHub](http://www.aishub.net/) to receive data from their API. You will need to contribute data to them, see the [RPIAIS](http://www.aishub.net/rpiais) seciotn for how to do this with a Raspberry Pi.
 2. CosmosDB setup, with a new Container with the Partition ID set to /MMSI
 3. Download source and enter your API Keys
-
-# Recording Ship Locations in CosmosDB
 
 At any time there are over 50,000 ships moving around the world, transmitting their location using an [AIS (Automatic Identification System)](https://en.wikipedia.org/wiki/Automatic_identification_system) transmitter on 161.975 MHz and 162.025 MHz. AIS was designed to allow ships to share their location with other nearby ships. Land based receivers have been set up by a number of companies and enthusiasts to collect AIS signals, and over recent years satellites have been used to get worldwide coverage.
 
@@ -26,6 +24,8 @@ Selecting good a partition keys and ids for your data is one of the early decisi
 
 ## Adding Data to Container
 Having created a AzureSQL container, either using the Azure Portal or via code, data can now be added to the container. 
+
+![Ais Data Flow](https://github.com/euangordon/AisHubToComsosDBFunction/blob/master/AIS_DataFlow.JPG.png)
 
 Using this Azure Function data is downloaded from AisHub, parsed, and the recorded into Azure CosmosDB.
 
