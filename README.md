@@ -14,7 +14,7 @@ At any time there are over 50,000 ships moving around the world, transmitting th
 
 If you are interested in receiving this data yourself, [AisHub.net](http://www.aishub.net/) allows access to their API if you contribute data yourself. This dataset offers limited coverage, but it provides enough data to get started. You can set up a small receiver using a [Raspberry Pi and an RTL-SDR USB dongle](http://www.aishub.net/rpiais). My small receiver gets some ships in the [Firth of Forth](http://www.aishub.net/stations/2993).
 
-## Getting Started: 
+## Getting Started with Azure CosmosDB: 
 See [Azure Cosmos DB documentation](https://docs.microsoft.com/en-us/azure/cosmos-db/)
 
 ## Structuring Data in Azure CosmosDB:
