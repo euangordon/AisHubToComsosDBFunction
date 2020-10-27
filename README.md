@@ -29,7 +29,7 @@ We chose to use an Azure Function (v3 .net core) Timer Function to connect to th
 ![Ais Data Flow](https://github.com/euangordon/AisHubToComsosDBFunction/blob/master/AIS_DataFlow.JPG.png)
 
 ## Structuring the Data:
-Selecting a good partition keys and ids for your data was one of the early that we needed to make. In this case, each ship could be uniquely identified using the ship's MMSI (Maritime Mobile Service Identity) number so this was chosen for the partition key. 
+Selecting a good partition key and ids for your data was one of the early decisions that we needed to make. In this case, each ship could be uniquely identified using the ship's MMSI (Maritime Mobile Service Identity) number so this was chosen for the partition key. 
 For the id, the only unique field in the AIS dataset was the date time that the position was received for each ship. So we converted the date time to ticks (string) and used this for the id. By using the date time as the id we could also avoid storing any duplicate position data.
 ![Ais Raw Data in CosmosDB](https://github.com/euangordon/AisHubToComsosDBFunction/blob/master/AIS_RawData.JPG)
 
