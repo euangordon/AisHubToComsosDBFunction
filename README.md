@@ -29,6 +29,7 @@ Selecting a good partition key and ids for your data was one of the early decisi
 For the item id, the only unique field in the AIS dataset was the date time that the position was received for each ship. So, we converted the date time to ticks (string) and used this for the id. By using the date time as the id we could also avoid storing any duplicate positions.
 
 The AIS Latitude and Longitude received were converted into the GeoJSON format supported by Azure Cosmos. At this time each location is stored as a single geography point.
+
 ![Ais Raw Data in CosmosDB](https://github.com/euangordon/AisHubToComsosDBFunction/blob/master/AIS_RawData.JPG)
 
 ## Deploying the Azure Function
